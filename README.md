@@ -5,7 +5,7 @@ Suporta limites em pontos finitos, em \(+\infty\) e \(-\infty\), e escolha do **
 
 ---
 
-## 📦 Requisitos
+## Requisitos
 
 - **Python 3.10+**
 - **SymPy**
@@ -47,7 +47,7 @@ pip install sympy
 
 ---
 
-## ▶️ Executar
+## Executar
 
 Coloque o `main.py` na pasta do projeto e rode:
 
@@ -60,7 +60,7 @@ A janela principal abrirá. Para encerrar, feche a janela (clicar no **X**).
 
 ---
 
-## 🧠 Como funcionam as **entradas** (inputs)
+## Como funcionam as **entradas** (inputs)
 
 A interface tem três campos:
 
@@ -109,7 +109,7 @@ Aceita valores **numéricos** ou **constantes** do SymPy:
 
 ---
 
-## ✅ Exemplos de uso
+## Exemplos de uso
 
 | f(x)                    | ponto | lado | Resultado esperado (ideia)        |
 |-------------------------|-------|------|-----------------------------------|
@@ -126,7 +126,7 @@ Aceita valores **numéricos** ou **constantes** do SymPy:
 
 ---
 
-## 🧩 Normalização de entrada (qualidades de vida)
+## Normalização de entrada (qualidades de vida)
 
 O app inclui um “patch” para aceitar variações comuns:
 
@@ -136,93 +136,3 @@ O app inclui um “patch” para aceitar variações comuns:
 - Converte `∞` → `oo`
 - Troca **vírgula decimal** entre dígitos por **ponto** (ex.: `1,5` → `1.5`) sem afetar coisas como `log(x, 2)`
 
-> Ainda assim, **prefira** digitar com a sintaxe padrão da SymPy quando possível.
-
----
-
-## 🎨 Tema e cores
-
-- A janela principal usa um **tema dark** (veja o dicionário `THEME` no topo do arquivo).
-- As mensagens de erro/aviso/sucesso usam um **modal customizado** com paleta separada (`MODAL_COLORS`).
-- Para mudar cores, **edite os dicionários** `THEME` e `MODAL_COLORS`.
-- Para **mostrar um modal de sucesso** após cada cálculo, deixe **ativa** a linha:
-  ```python
-  show_modal(janela, "Pronto", "Limite calculado com sucesso!", kind="info")
-  ```
-  (Ela já está presente em `calcular_limite()`; comente se não quiser.)
-
-> **macOS:** widgets nativos podem ignorar `bg/fg` em botões padrão. O exemplo usa widgets “clássicos” do `tkinter` para maximizar compatibilidade. Se quiser `ttk`, será preciso configurar `Style`.
-
----
-
-## ⛑️ Tratamento de erros
-
-- **Função inválida:** modal “Função inválida.”
-- **Ponto inválido:** modal “Ponto inválido.”
-- **Erro no cálculo:** modal com a exceção (`Erro ao calcular`).
-- **KeyboardInterrupt:** aparece no terminal se você interromper o `mainloop()` com `Ctrl+C`. Não é bug.
-
----
-
-## 🧪 Dicas & Depuração
-
-Verifique se as bibliotecas estão acessíveis:
-
-```bash
-python -c "import tkinter as tk; print('tkinter OK')"
-python -c "import sympy as sp; print('sympy', sp.__version__)"
-```
-
-Se uma cor não aplicar:
-- Confirme que o widget é do **tkinter “clássico”** (não `ttk`).
-- No Linux, o **tema do sistema** geralmente respeita as cores definidas.
-
----
-
-## 🧷 Problemas comuns
-
-- **TypeError: tkinter.Label() got multiple values for keyword argument 'fg'**  
-  Acontece quando a função fábrica já define `fg` e você passa `fg` de novo. O projeto usa `setdefault` nas fábricas (`mk_label`, `mk_entry`, `mk_button`), então você pode **sobrescrever** `fg` sem conflito.
-
-- **SyntaxError / SympifyError ao digitar função**  
-  Verifique sintaxe SymPy: potência `**`, decimal com **ponto**, funções em inglês (`sin`, `cos`, `log`), etc.
-
----
-
-## 📝 Atalhos úteis
-
-- **Enter** no modal: fecha o modal.  
-- **Esc** no modal: fecha o modal.
-
----
-
-## 📁 Estrutura recomendada
-
-```
-CalculadoraLimites/
-├─ main.py
-├─ README.md
-└─ .venv/        (opcional)
-```
-
----
-
-## 📜 Licença
-
-Uso educacional/livre. Ajuste e distribua conforme necessário no seu contexto.
-
----
-
-## 🙋 FAQ rápido
-
-**Posso usar `sen(x)`?**  
-Sim, o app converte `sen(` para `sin(` automaticamente.
-
-**Posso digitar `∞`?**  
-Sim, é convertido para `oo`.
-
-**Posso usar vírgula como decimal (`1,5`)?**  
-Sim, se for **dentro de números**. Em parâmetros de funções (ex.: `log(x, 2)`), a vírgula permanece.
-
-**Funciona com limite lateral?**  
-Sim. Selecione `+` (direita) ou `-` (esquerda). Se deixar “Ambos os lados”, o SymPy usa `'+-'`.

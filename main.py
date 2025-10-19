@@ -2,9 +2,8 @@ import re
 import sympy as sp
 import tkinter as tk
 
-# =========================
 # Paletas (janela e modal)
-# =========================
+
 THEME = {
     "bg": "#0B1220",          
     "fg": "#E5E7EB",         
