@@ -68,25 +68,70 @@ A interface tem três campos:
 2) **Ponto** para o qual x tende  
 3) **Tendência (lado)**: ambos, direita (+) ou esquerda (-)
 
-### 1) Campo “Função f(x)”
-- **Variável:** `x` (real).
-- **Operadores:** `+  -  *  /  **`  
-  > **Potência é `**`** (ex.: `x**2`). Não use `^`.
-- **Parênteses:** `(` `)`
-- **Números:** inteiros (`2`), racionais (`1/3`), decimais (`0.25`) — **use ponto**, não vírgula.
-- **Constantes:** `pi`, `E` (número de Euler), `oo` (∞) (infinito positivo), `-oo` (−∞) (infinito negativo), `GoldenRatio` (razão áurea), `EulerGamma` (constante de Euler–Mascheroni).
-- **Funções** (padrão SymPy):
-  - trigonométricas: `sin`, `cos`, `tan`, `cot`, `sec`, `csc`, inversas `asin`, `acos`, `atan`, …
-  - hiperbólicas: `sinh`, `cosh`, `tanh`, …
-  - exponenciais/log: `exp(x)`, `log(x)` (natural), `log(x, 2)` (base 2)
-  - outras: `sqrt(x)`, `abs(x)`, `sign(x)`, `floor(x)`, `ceiling(x)`, `Heaviside(x)`, `Max(a,b)`, `Min(a,b)`
-  - **Por partes:** `Piecewise((expr1, cond1), (expr2, True))`
+### 1) Campo **“Função f(x)”**
+
+- **Variável:** `x` (real)
+- **Operadores aritméticos:** `+` (soma), `-` (subtração), `*` (multiplicação), `/` (divisão), `**` (potência)  
+  > **Potência é `**`** (ex.: `x**2`). **Não use** `^`.
+- **Parênteses:** `(` `)` — use para agrupar expressões.
+- **Números:** inteiros (`2`), racionais (`1/3`), decimais (`0.25`) — **use ponto**, não vírgula.  
+  Exemplos: `1.5`, `2/3`, `-0.01`.
+
+#### Constantes (com nome)
+- `pi` — **π (pi)**
+- `E` — **número de Euler** (≈ 2.718…)
+- `oo` — **+∞ (infinito positivo)**
+- `-oo` — **−∞ (infinito negativo)**
+- `GoldenRatio` — **razão áurea** (φ = (1+√5)/2)
+- `EulerGamma` — **constante de Euler–Mascheroni** (γ ≈ 0.5772)
+
+#### Funções disponíveis (nomes + exemplos)
+
+**Raiz**
+- `sqrt(x)` — raiz quadrada. Ex.: `sqrt(x+1)`
+- `x**(1/n)` — raiz n-ésima. Ex.: `x**(1/3)` (raiz cúbica)
+
+**Valor absoluto**
+- `abs(x)` — módulo / valor absoluto. Ex.: `abs(x-3)`
+
+**Trigonométricas**
+- `sin(x)` (seno), `cos(x)` (cosseno), `tan(x)` (tangente)  
+- `cot(x)` (cotangente), `sec(x)` (secante), `csc(x)` (cossecante)
+
+**Trigonométricas inversas**
+- `asin(x)` (arco-seno), `acos(x)` (arco-cosseno), `atan(x)` (arco-tangente)  
+- `atan2(y, x)` — arco-tangente de duas variáveis (quadrante correto)
+
+**Hiperbólicas**
+- `sinh(x)` (seno hiperbólico), `cosh(x)` (cosseno hiperbólico), `tanh(x)` (tangente hiperbólica)  
+- Inversas: `asinh(x)`, `acosh(x)`, `atanh(x)`
+
+**Exponenciais e logaritmos**
+- `exp(x)` — exponencial `e**x`  
+- `log(x)` — logaritmo natural (base *e*)  
+- `log(x, b)` — log na base `b`. Ex.: `log(x, 2)`
+
+**Funções utilitárias**
+- `sign(x)` — sinal (−1, 0, 1)  
+- `floor(x)` — parte inteira inferior; `ceiling(x)` — teto  
+- `Heaviside(x)` — degrau de Heaviside (0 para `x<0`, 1 para `x>0`; em `x=0` é 1/2 por padrão)  
+- `Max(a, b, ...)` — máximo; `Min(a, b, …)` — mínimo
+
+**Função por partes**
+```python
+Piecewise((expr1, cond1), (expr2, cond2), (expr_default, True))
+# Exemplo:
+Piecewise((x**2, x < 0), (x, True))
+```
+
+**Composição / aninhamento**
+- Use parênteses: `sin(sqrt(x))`, `log(abs(x))`, `exp(-x**2)`
 
 **Exemplos válidos**
-- `sin(x)/x`
-- `(1 - cos(x))/x**2`
-- `abs(x)/x`
-- `log(x, 2)`
+- `sin(x)/x`  
+- `(1 - cos(x))/x**2`  
+- `abs(x)/x`  
+- `log(x, 2)`  
 - `Piecewise((x**2, x<0), (x, True))`
 
 ### 2) Campo “Ponto”
@@ -136,3 +181,52 @@ O app inclui um “patch” para aceitar variações comuns:
 - Converte `∞` → `oo`
 - Troca **vírgula decimal** entre dígitos por **ponto** (ex.: `1,5` → `1.5`) sem afetar coisas como `log(x, 2)`
 
+---
+
+## Problemas comuns
+
+- **TypeError: tkinter.Label() got multiple values for keyword argument 'fg'**  
+  Acontece quando a fábrica já define `fg` e você passa `fg` de novo. O projeto usa `setdefault` nas fábricas (`mk_label`, `mk_entry`, `mk_button`), então você pode **sobrescrever** `fg` sem conflito.
+
+- **SyntaxError / SympifyError ao digitar função**  
+  Verifique sintaxe SymPy: potência `**`, decimal com **ponto**, funções em inglês (`sin`, `cos`, `log`), etc.
+
+---
+
+## Atalhos úteis
+
+- **Enter** no modal: fecha o modal.  
+- **Esc** no modal: fecha o modal.
+
+---
+
+## Estrutura recomendada
+
+```
+CalculadoraLimites/
+├─ main.py
+├─ README.md
+└─ .venv/        (opcional)
+```
+
+---
+
+## Licença
+
+Uso educacional/livre. Ajuste e distribua conforme necessário no seu contexto.
+
+---
+
+## FAQ rápido
+
+**Posso usar `sen(x)`?**  
+Sim, o app converte `sen(` para `sin(` automaticamente.
+
+**Posso digitar `∞`?**  
+Sim, é convertido para `oo`.
+
+**Posso usar vírgula como decimal (`1,5`)?**  
+Sim, se for **dentro de números**. Em parâmetros de funções (ex.: `log(x, 2)`), a vírgula permanece.
+
+**Funciona com limite lateral?**  
+Sim. Selecione `+` (direita) ou `-` (esquerda). Se deixar “Ambos os lados”, o SymPy usa `'+-'`.
